@@ -1,3 +1,13 @@
+LoadDefaultSettings() {
+    level.locked = false;
+    level.match_started = false;
+    level.original_player = undefined;
+}
+
+GetPassword() {
+    return GetDvar("g_password");
+}
+
 LockServer() {
     if (!level.locked) {
         password = generatePassword();
@@ -13,6 +23,10 @@ UnlockServer() {
         SetDvar("g_password", "");
         level.locked = false;
     }
+}
+
+IsLocked() {
+    return level.locked;
 }
 
 generatePassword() {
