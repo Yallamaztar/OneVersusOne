@@ -1,4 +1,13 @@
 LoadDefaultLoadouts() {
+    if (!IsDefined(level.primaries)) {
+        level.primaries = [];
+        level.primaries[level.primaries.size] = "sniper";
+        level.primaries[level.primaries.size] = "lmg";
+        level.primaries[level.primaries.size] = "assault";
+        level.primaries[level.primaries.size] = "shotgun";
+        level.primaries[level.primaries.size] = "smg";
+    }
+
     if (!IsDefined(level.snipers)) {
         level.snipers = [];
         level.snipers[level.snipers.size] = "dsr50_mp";
@@ -138,27 +147,25 @@ getRandomPrimaryWeapon(loadout) {
     return "qcw05_mp"; // this should never be reached but just in case
 }
 
-getRandomSecondaryWeapon() {
-    return level.secondaries[randomInt(level.secondaries.size)];
+
+getRandomAttachments() {
+    attachments = "";
+    for (i = 0; i < RandomIntRange(0, 3); i++) {
+        attachments += "+" + level.attachments[RandomInt(level.attachments.size)];
+    }
+    return attachments;
 }
 
-getRandomTactical() {
-    return level.tacticals[randomInt(level.tacticals.size)];
-}
-
-getRandomLethal() {
-    return level.lethals[randomInt(level.lethals.size)];
-}
-
-GiveLoadout(loadout) {
+GiveLoadout() {
     self TakeAllWeapons();
 
-    // GIVE PRIMARY WEAPON RANDOM ATTACHMENTS
-    weap = getRandomPrimaryWeapon(loadout);
-    self GiveWeapon(weap);
-    self SwitchToWeapon(weap);
+    weapon = getRandomPrimaryWeapon(level.primaries[randomInt(level.primaries.size) - 1]);
+    weapon += getRandomAttachments();
 
-    self GiveWeapon(getRandomSecondaryWeapon());
-    self GiveWeapon(getRandomTactical());
-    self GiveWeapon(getRandomLethal());
+    self GiveWeapon(weapon);
+    self SwitchToWeapon(weapon);
+
+    self GiveWeapon(level.secondaries[randomInt(level.secondaries.size)]);
+    self GiveWeapon(level.tacticals[randomInt(level.tacticals.size)]);
+    self GiveWeapon(level.lethals[randomInt(level.lethals.size)]);
 }
