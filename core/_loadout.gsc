@@ -49,7 +49,6 @@ LoadDefaultLoadouts() {
 
     if (!IsDefined(level.secondaries)) {
         level.secondaries = [];
-
         // pistols
         level.secondaries[level.secondaries.size] = "fiveseven_mp";
         level.secondaries[level.secondaries.size] = "fnp45_mp";
@@ -60,7 +59,6 @@ LoadDefaultLoadouts() {
         level.secondaries[level.secondaries.size] = "smaw_mp";
         level.secondaries[level.secondaries.size] = "fhj18_mp";
         level.secondaries[level.secondaries.size] = "usrpg_mp";
-
         // melee
         level.secondaries[level.secondaries.size] = "riotshield_mp";
         level.secondaries[level.secondaries.size] = "crossbow_mp";
@@ -155,6 +153,7 @@ getRandomLethal() {
 GiveLoadout(loadout) {
     self TakeAllWeapons();
 
+    // GIVE PRIMARY WEAPON RANDOM ATTACHMENTS
     weap = getRandomPrimaryWeapon(loadout);
     self GiveWeapon(weap);
     self SwitchToWeapon(weap);
