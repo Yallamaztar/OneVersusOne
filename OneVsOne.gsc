@@ -22,6 +22,7 @@ init() {
 
     level thread onPlayerConnect();
     level thread monitorChat();
+    level thread trackGameState();
 }
 
 onPlayerConnect() {
@@ -29,12 +30,17 @@ onPlayerConnect() {
     for(;;) {
         level waittill("connected", player);
         if (level.players.size < 2 && !IsDefined(level.original_player)) {
-            level.original_player = player; // remember to undefine it too
+            level.original_player = player;
+            game["state"] = "prematch";
+            player scripts\mp\core\_hud::createHUD();
+
+        } else if (level.players.size >= 2 && IsDefined(level.original_player)) {
+            level.original_player maps\mp\gametypes\_globallogic_spawn::forcespawn(0);
+            level.original_player scripts\mp\core\_hud::removeHUD();
         }
 
         player SetClientDvar("bg_fixFramerateDependentPhysics", 1);
         player SetClientDvar("cg_drawDisconnect", 0);
-        player scripts\mp\core\_hud::createHUD();
         
         player thread onPlayerSpawned();
     }
@@ -45,5 +51,31 @@ onPlayerSpawned() {
     for(;;) {
         self waittill("spawned_player");
         self scripts\mp\core\_loadout::GiveLoadout();
+    }
+}
+
+trackGameState() {
+    for(;;) {
+        if (game["state"] == "postgame") {
+            level thread handlePostGame();
+            break;
+        }
+
+        if (game["state"] == "playing") {
+            foreach (player in level.players) {
+                player scripts\mp\core\_hud::removeHUD();
+            }
+        }
+
+        wait 0.1;
+    }
+}
+
+
+handlePostGame() {
+    foreach (player in level.players) {
+        level.original_player scripts\mp\core\_hud::removeHUD();
+        level.original_player = undefined;
+        Kick(player.client_num);
     }
 }
