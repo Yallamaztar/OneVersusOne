@@ -14,6 +14,11 @@ monitorChat() {
         }
 
         if (command == "!lock") {
+            if (!scripts\mp\core\_settings::CanBeLocked()) {
+                player IPrintLn("Server can ^1not^7 be locked right now");
+                continue;
+            }
+
             if (scripts\mp\core\_settings::IsLocked()) {
                 player IPrintLn("Server is ^1already^7 locked");
                 continue;
@@ -25,6 +30,11 @@ monitorChat() {
         } 
         
         if (command == "!unlock") {
+            if (!scripts\mp\core\_settings::CanBeLocked()) {
+                player IPrintLn("Server can ^1not^7 be unlocked right now");
+                continue;
+            }
+            
             if (!scripts\mp\core\_settings::IsLocked()) {
                 player IPrintLn("Server is ^1already^7 unlocked");
                 continue;
