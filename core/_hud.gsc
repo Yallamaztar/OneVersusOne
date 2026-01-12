@@ -15,3 +15,11 @@ createUnlockedHUD() {
 removeHUD() {
     self.hint Destroy();
 }
+
+createHUD() {
+    if (scripts\mp\core\_settings::IsLocked()) {
+        self scripts\mp\core\_hud::createLockedHUD();
+    } else {
+        self scripts\mp\core\_hud::createUnlockedHUD();
+    }
+}

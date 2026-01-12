@@ -34,7 +34,8 @@ onPlayerConnect() {
 
         player SetClientDvar("bg_fixFramerateDependentPhysics", 1);
         player SetClientDvar("cg_drawDisconnect", 0);
-
+        player scripts\mp\core\_hud::createHUD();
+        
         player thread onPlayerSpawned();
     }
 }
@@ -44,11 +45,5 @@ onPlayerSpawned() {
     for(;;) {
         self waittill("spawned_player");
         self scripts\mp\core\_loadout::GiveLoadout();
-
-        if (scripts\mp\core\_settings::IsLocked()) {
-            self scripts\mp\core\_hud::createLockedHUD();
-        } else {
-            self scripts\mp\core\_hud::createUnlockedHUD();
-        }
     }
 }
