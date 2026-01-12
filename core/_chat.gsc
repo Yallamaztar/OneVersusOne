@@ -19,12 +19,9 @@ monitorChat() {
                 continue;
             }
 
-            scripts\mp\core\_settings::LockServer();
-            for (i = 0; i < level.players.size; i++) {            
-                p = level.players[i];
-                p scripts\mp\core\_hud::removeHUD();
-                p scripts\mp\core\_hud::createLockedHUD();
-            }
+            scripts\mp\core\_settings::LockServer();        
+            player scripts\mp\core\_hud::removeHUD();
+            player scripts\mp\core\_hud::createLockedHUD();
         } 
         
         if (command == "!unlock") {
@@ -34,11 +31,8 @@ monitorChat() {
             }
 
             scripts\mp\core\_settings::UnlockServer();
-            for (i = 0; i < level.players.size; i++) {
-                p = level.players[i];
-                p scripts\mp\core\_hud::removeHUD();
-                p scripts\mp\core\_hud::createUnlockedHUD();
-            }
+            player scripts\mp\core\_hud::removeHUD();
+            player scripts\mp\core\_hud::createUnlockedHUD();
         }
 
         wait 0.1;
