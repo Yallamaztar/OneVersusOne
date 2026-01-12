@@ -29,6 +29,10 @@ IsLocked() {
     return level.locked;
 }
 
+CanBeLocked() {
+    return game["state"] != "playing" && game["state"] != "postgame" && level.players.size < 2;
+}
+
 generatePassword() {
     password = "";
     for (i = 0; i < 5; i++) {
